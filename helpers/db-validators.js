@@ -7,7 +7,7 @@ const isRoleValid = async (role = "") => {
   }
 };
 
-// Verify si email exists
+// Verify if email exists
 const verifyEmail = async (email = "") => {
   const existsEmail = await User.findOne({ email });
   if (existsEmail) {

@@ -45,7 +45,8 @@ const UserSchema = Schema({
 /* For building this method we have to use 'function' NO arrow functions */
 UserSchema.methods.toJSON = function () {
   // Using spread operator to return all user object properties without __v and password
-  const { __v, password, ...user } = this.toObject();
+  const { __v, password, _id, ...user } = this.toObject();
+  user.uid = _id; // Changing proporty _id to uid
   return user;
 };
 

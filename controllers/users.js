@@ -56,10 +56,21 @@ const usersPatch = (req = request, res = response) => {
 
 const usersDelete = async (req = request, res = response) => {
   const { id } = req.params;
+  // Getting userAuthenticated
+  //const userAuthenticated = req.userAuthenticated;
+  // First checking if the user who will be deleted is currently deleted
+  const userToDelete = await User.findById(id);
+  if (userToDelete.status === false) {
+    return res.status(404).json({
+      message: `You can't delete this user because currently is deleted`,
+    });
+  }
+
   // Removing the user physically from database
   //const userDeleted = await User.findByIdAndDelete(id);
   // Changing user.status(from true to false) for not losing integrity in database
-  const userDeleted = await User.findByIdAndUpdate(id, { status: false });
+  const userDeleted = await User.findByIdAndUpdate(id, { status: false }, { new: true });
+
   res.json({
     message: "delete from API/USERS -- Users Controller",
     userDeleted,
